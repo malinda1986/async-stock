@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",   
+    "target": "es6",       
+    "allowJs": true,    
+    "outDir": "dist",       
+    "strict": true,                           
+    "esModuleInterop": true,                  
+    "skipLibCheck": true,                     
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "strictPropertyInitialization": false,
+    "rootDir": ".",
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["*"]
+    }
+  },
+  "include": ["src", "ormconfig.js", "seed-products.js"],
+  "exclude": ["node_modules"]
+}

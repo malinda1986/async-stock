@@ -1,0 +1,77 @@
+version: "3"
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
+
+services:
+  app:
+    build: .
+    environment:
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
+      - DEFAULT_EXCHANGE=stock
+      - MONGO_CONNECT_URL=mongodb://mongo:27017/dm-stock
+      - NODE_ENV=dev
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "5000:5000"
+    links:
+      - rabbitmq
+      - mongo
+    networks: 
+      - app-network
+    depends_on: 
+      - mongo 
+      - rabbitmq 
+      - stock-service
+
+  app-seeder:
+    build: .
+    environment:
+      - MONGO_CONNECT_URL=mongodb://mongo:27017/dm-stock
+      - NODE_ENV=dev
+    volumes:
+      - .:/app
+      - /app/node_modules
+    links:
+      - mongo
+    networks: 
+      - app-network
+    depends_on: 
+      - mongo 
+    command: ["yarn", "db:seed"]
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+    volumes:
+      - mongo-data:/data/db
+
+
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    networks:
+      - app-network
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  stock-service:
+    image: deliverymuch/backend-challenge:stock-service
+    networks:
+      - app-network
+    environment:
+      - RABBITMQ_URL=amqp://rabbitmq
+    depends_on:
+      - rabbitmq
+    links:
+      - rabbitmq
+    restart: on-failure
