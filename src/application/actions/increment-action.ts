@@ -11,8 +11,9 @@ export class IncrementAction implements AsyncAction {
 
   async handle(params: any): Promise<void> {
     const { data } = params as { data: string };
+    const name = data.replace(`"`, '').replace(`"`, '');
 
-    const product = await this.productsRepository.findByName(data);
+    const product = await this.productsRepository.findByName(name);
     if (product) {
       await this.productsRepository.update({
         ...product,

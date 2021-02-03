@@ -1,5 +1,5 @@
-import { Product } from "@/domain/models";
+import { DbProduct } from '@/domain/models';
 
 export interface ShowProduct {
-  show: (name: string) => Promise<Product>;
+  show: (name: string) => Promise<DbProduct>;
 }

@@ -11,9 +11,10 @@ export class DecrementAction implements AsyncAction {
 
   async handle(params: any): Promise<void> {
     const { data } = params as { data: string };
+    const name = data.replace(`"`, '').replace(`"`, '');
 
-    const product = await this.productsRepository.findByName(data);
-    if (product) {
+    const product = await this.productsRepository.findByName(name);
+    if (product && product.quantity) {
       await this.productsRepository.update({
         ...product,
         quantity: product.quantity - 1,

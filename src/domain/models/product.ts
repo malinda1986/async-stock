@@ -3,3 +3,5 @@ export interface Product {
   price: number;
   quantity: number;
 }
+
+export type DbProduct = Product & { id: string };

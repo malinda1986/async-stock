@@ -1,21 +1,13 @@
-import {
-  Entity,
-  Column,
-  ObjectIdColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  PrimaryColumn,
-} from 'typeorm';
-import { ObjectID } from 'mongodb';
+import { Entity, Column, ObjectIdColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 import { Product } from '@/domain/models';
 
 @Entity('products')
 export class ProductEntity implements Product {
   @ObjectIdColumn()
-  id: string | ObjectID;
+  id: string;
 
-  @PrimaryColumn()
+  @Column()
   name: string;
 
   @Column()

@@ -1,9 +1,10 @@
 import { getMongoRepository, MongoRepository } from 'typeorm';
 
 import { ProductsRepository } from '@/application/protocols';
-import { Product } from '@/domain/models';
+import { DbProduct, Product } from '@/domain/models';
 import { ProductEntity } from '@/infra/db/entities';
 import { AbstractMongoRepository } from './abstract-mongo-repository';
+import { ObjectID } from 'mongodb';
 
 export class MongoProductsRepository
   extends AbstractMongoRepository<ProductEntity>
@@ -15,16 +16,16 @@ export class MongoProductsRepository
     this.repository = getMongoRepository(ProductEntity);
   }
 
-  async findByName(productName: string): Promise<Product | undefined> {
+  async findByName(productName: string): Promise<DbProduct | undefined> {
     const product = await this.repository.findOne({
-      name: productName.replace(`"`, '').replace(`"`, ''),
+      where: { name: productName },
     });
 
     if (!product) {
       return undefined;
     }
 
-    return this.withoutIdAndTimestamps(product);
+    return this.withoutTimestamps(product);
   }
 
   async createMany(products: Product[]): Promise<Product[]> {
@@ -32,7 +33,8 @@ export class MongoProductsRepository
     return this.repository.save(createdProducts);
   }
 
-  async update(product: Product): Promise<void> {
-    await this.repository.save(product);
+  async update(product: Product & { id: string }): Promise<DbProduct> {
+    const dbProduct = await this.repository.findOne(product.id);
+    return this.repository.save({ ...dbProduct, ...product });
   }
 }

@@ -10,8 +10,9 @@ export class ProductsController {
     const { name } = httpRequest.pathParameters as { name: string };
 
     const showProduct = container.resolve<ShowProduct>('ShowProduct');
-    const product = await showProduct.show(name);
+    const dbProduct = await showProduct.show(name);
 
+    const { id: _, ...product } = dbProduct;
     return ok(product);
   }
 }
