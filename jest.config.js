@@ -6,6 +6,7 @@ module.exports = {
     '!<rootDir>/src/**/protocols/*.ts',
     '!<rootDir>/src/**/index*.ts',
     '!<rootDir>/src/__tests__/**/*.ts',
+    '!<rootDir>/src/config/*.ts',
   ],
   coveragePathIgnorePatterns: ['/node_modules/'],
   setupFilesAfterEnv: ['./src/config/tests.ts'],
