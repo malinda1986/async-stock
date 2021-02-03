@@ -16,7 +16,9 @@ export class MongoProductsRepository
   }
 
   async findByName(productName: string): Promise<Product | undefined> {
-    const product = await this.repository.findOne({ name: productName });
+    const product = await this.repository.findOne({
+      name: productName.replace(`"`, '').replace(`"`, ''),
+    });
 
     if (!product) {
       return undefined;
@@ -28,5 +30,9 @@ export class MongoProductsRepository
   async createMany(products: Product[]): Promise<Product[]> {
     const createdProducts = this.repository.create(products);
     return this.repository.save(createdProducts);
+  }
+
+  async update(product: Product): Promise<void> {
+    await this.repository.save(product);
   }
 }

@@ -1,11 +1,13 @@
-import { AMQPAdapter } from "@/infra";
-import { connectionUrl, defaultExchange } from "@/config/rabbitmq";
-import { QueueConsumer } from "@/application/protocols";
-import { DecrementAction, IncrementAction } from "@/application/actions";
+import { container } from 'tsyringe';
+
+import { AMQPAdapter } from '@/infra';
+import { connectionUrl, defaultExchange } from '@/config/rabbitmq';
+import { QueueConsumer } from '@/application/protocols';
+import { DecrementAction, IncrementAction } from '@/application/actions';
 
 const setUpConsumer = async (consumer: QueueConsumer) => {
-  await consumer.consume("incremented", new IncrementAction());
-  await consumer.consume("decremented", new DecrementAction());
+  await consumer.consume('incremented', container.resolve(IncrementAction));
+  await consumer.consume('decremented', container.resolve(DecrementAction));
 };
 
 const init = () => {
@@ -15,7 +17,7 @@ const init = () => {
       await amqp.setupConnection(connectionUrl, defaultExchange);
       await setUpConsumer(amqp);
     } catch (error) {
-      console.error("Error trying to set up the queue consumer", error);
+      console.error('Error trying to set up the queue consumer', error);
     }
   };
 };
