@@ -2,7 +2,7 @@ import { Order } from '@/domain/models';
 import { OrderEntity } from '@/infra/db/entities';
 import { getRepository } from 'typeorm';
 
-export const seedOrder = async (order: Omit<Order, 'id'>): Promise<Order> => {
+export const seedOrder = async (order: Omit<OrderEntity, 'id'>): Promise<OrderEntity> => {
   const ordersRepository = getRepository(OrderEntity);
   const created = ordersRepository.create(order);
   return ordersRepository.save(created);
