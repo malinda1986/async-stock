@@ -1,6 +1,12 @@
 module.exports = {
   clearMocks: true,
   coverageDirectory: 'coverage',
+  collectCoverageFrom: [
+    '<rootDir>/src/**/*.ts',
+    '!<rootDir>/src/**/protocols/*.ts',
+    '!<rootDir>/src/**/index*.ts',
+    '!<rootDir>/src/__tests__/**/*.ts',
+  ],
   coveragePathIgnorePatterns: ['/node_modules/'],
   setupFilesAfterEnv: ['./src/config/tests.ts'],
   coverageReporters: ['lcov'],
