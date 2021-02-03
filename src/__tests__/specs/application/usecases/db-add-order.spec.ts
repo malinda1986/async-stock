@@ -3,13 +3,12 @@ import faker from 'faker';
 import { DbAddOrder } from '@/application/usecases/orders';
 import { ApiError } from '@/domain/errors';
 import { HttpStatusCode } from '@/presentation/protocols';
-import { dbProductMock, orderCreationMock, productMock } from '@/__tests__/doubles/mocks';
 import {
   OrdersRepositorySpy,
   ProductsRepositorySpy,
   ShowProductSpy,
 } from '@/__tests__/doubles/spies';
-import { DbProduct, OrderCreation } from '@/domain/models';
+import { DbProduct } from '@/domain/models';
 import { DbProductsBuilder, OrderCreationBuilder } from '@/__tests__/builders';
 
 const sutFactory = () => {
