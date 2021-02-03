@@ -3,7 +3,9 @@ import { OrderCreation, Order } from '@/domain/models';
 import { orderMock } from '@/__tests__/doubles/mocks';
 
 export class OrdersRepositorySpy implements OrdersRepository {
-  orders = [orderMock, orderMock];
+  orders = [{ ...orderMock }, { ...orderMock }];
+
+  order = { ...orderMock };
 
   async create(_order: OrderCreation & { total: number }): Promise<Order> {
     return orderMock;
@@ -13,7 +15,7 @@ export class OrdersRepositorySpy implements OrdersRepository {
     return this.orders;
   }
 
-  async findById(_orderId: string): Promise<Order | undefined> {
-    return orderMock;
+  async findById(orderId: string): Promise<Order | undefined> {
+    return { ...this.order, id: orderId };
   }
 }
