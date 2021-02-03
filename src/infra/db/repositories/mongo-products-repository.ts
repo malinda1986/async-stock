@@ -4,7 +4,6 @@ import { ProductsRepository } from '@/application/protocols';
 import { DbProduct, Product } from '@/domain/models';
 import { ProductEntity } from '@/infra/db/entities';
 import { AbstractMongoRepository } from './abstract-mongo-repository';
-import { ObjectID } from 'mongodb';
 
 export class MongoProductsRepository
   extends AbstractMongoRepository<ProductEntity>
