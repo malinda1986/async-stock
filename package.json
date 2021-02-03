@@ -28,7 +28,7 @@
     "build": "npx rimraf ./dist && npx tsc",
     "start:dev": "ts-node-dev -r tsconfig-paths/register ./src/main/index.ts",
     "test": "jest --watchAll",
-    "test:coverage": "jest --runInBand --passWithNoTests --coverage",
+    "test:coverage": "jest --runInBand --passWithNoTests --coverage --forceExit",
     "db:seed": "npx ts-node-script ./src/infra/db/seed-products.ts"
   },
   "dependencies": {
