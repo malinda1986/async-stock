@@ -7,6 +7,7 @@ module.exports = {
     '!<rootDir>/src/**/index*.ts',
     '!<rootDir>/src/__tests__/**/*.ts',
     '!<rootDir>/src/config/*.ts',
+    '!<rootDir>/src/infra/db/seed-products.ts',
   ],
   coveragePathIgnorePatterns: ['/node_modules/'],
   setupFilesAfterEnv: ['./src/config/tests.ts'],
