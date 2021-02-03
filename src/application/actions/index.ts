@@ -1,2 +1,2 @@
-export * from "./increment-action";
-export * from "./decrement-action";
+export * from './increment';
+export * from './decrement';

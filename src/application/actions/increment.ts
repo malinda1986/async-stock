@@ -1,6 +1,6 @@
 import { injectable, inject } from 'tsyringe';
 
-import { AsyncAction, ProductsRepository } from '@/application/protocols';
+import { ActionParams, AsyncAction, ProductsRepository } from '@/application/protocols';
 
 @injectable()
 export class IncrementAction implements AsyncAction {
@@ -9,8 +9,8 @@ export class IncrementAction implements AsyncAction {
     private readonly productsRepository: ProductsRepository
   ) {}
 
-  async handle(params: any): Promise<void> {
-    const { data } = params as { data: string };
+  async handle(params: ActionParams): Promise<void> {
+    const { data } = params;
     const name = data.replace(`"`, '').replace(`"`, '');
 
     const product = await this.productsRepository.findByName(name);
