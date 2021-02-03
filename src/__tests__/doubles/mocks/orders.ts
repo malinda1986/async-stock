@@ -9,6 +9,11 @@ export const orderCreationMock: OrderCreation = {
 
 export const orderMock: Order = {
   id: faker.random.uuid(),
-  products: [productMock, productMock],
+  products: [{ ...productMock }, { ...productMock }],
+  total: faker.random.number(),
+};
+
+export const orderWithouIdMock: Omit<Order, 'id'> = {
+  products: [{ ...productMock }, { ...productMock }],
   total: faker.random.number(),
 };
