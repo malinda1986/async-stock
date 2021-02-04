@@ -5,7 +5,7 @@
 - Add the correct permissions to the seed file with `sudo chmod +x ./src/infra/db/seed-products.ts`
 - Run `docker-compose up -d --build` 
 - There is a container in the docker-compose containing the seed runner, so when you run the above command, it will run together. 
-- The application is up and running.
+- The application is up and running on port **5000**.
 - You can run the tests using `yarn test` or if you prefer, `yarn test:coverage` to run the tests and generate a coverage file.
 
 ## About the functionalities
