@@ -8,6 +8,8 @@ import { container } from 'tsyringe';
 
 import createConnection from '@/config/database';
 import { MongoProductsRepository } from '@/infra/db/repositories';
+import { getRepository } from 'typeorm';
+import { ProductEntity } from './entities';
 
 const readFileAndSeedDatabase = async () => {
   console.log('Starting database seed...');
@@ -24,6 +26,7 @@ const readFileAndSeedDatabase = async () => {
       return { name, price: Number(price), quantity: Number(quantity) };
     });
 
+    getRepository(ProductEntity).clear();
     await productsRepository.createMany(products);
   });
 };

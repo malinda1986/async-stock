@@ -1,0 +1,255 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Stock Management and Order API",
+    "description": "Delivery Much Challenge",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "/",
+      "description": "Base API"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Orders API",
+      "description": "Enpoints related to Orders"
+    },
+    {
+      "name": "Products API",
+      "description": "Enpoints related to Products"
+    }
+  ],
+  "paths": {
+    "/orders": {
+      "get": {
+        "tags": ["Orders API"],
+        "summary": "Get all orders",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "type": "object",
+                "properties": {
+                  "orders": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "600b28c3bfc13a001f14ffdd"
+                      },
+                      "products": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "Kiwi"
+                          },
+                          "price": {
+                            "type": "number",
+                            "example": 987
+                          },
+                          "quantity": {
+                            "type": "number",
+                            "example": 10
+                          }
+                        }
+                      },
+                      "total": {
+                        "type": "number",
+                        "example": 10000
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Orders API"],
+        "summary": "Create a new Order",
+        "requestBody": {
+          "description": "The order to create",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "products": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "Kiwi"
+                        },
+                        "quantity": {
+                          "type": "number",
+                          "example": 10
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "When the Order was created",
+            "content": {
+              "application/json": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "600b28c3bfc13a001f14ffdd"
+                  },
+                  "products": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "Kiwi"
+                        },
+                        "quantity": {
+                          "type": "number",
+                          "example": 10
+                        },
+                        "price": {
+                          "type": "number",
+                          "example": 998
+                        }
+                      }
+                    }
+                  },
+                  "total": {
+                    "type": "number",
+                    "example": 10000
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "When there is a validation error"
+          },
+          "422": {
+            "description": "When a product is out of stock"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/orders/{orderId}": {
+      "get": {
+        "tags": ["Orders API"],
+        "summary": "Get an order by id",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "601b3c694b7e63001c40156e"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "When the order was found"
+          },
+          "404": {
+            "description": "When the order dont exist"
+          }
+        }
+      }
+    },
+    "/products/{productName}": {
+      "get": {
+        "tags": ["Products API"],
+        "summary": "Get a product by name",
+        "parameters": [
+          {
+            "name": "productName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Kiwi"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "When the product was found"
+          },
+          "404": {
+            "description": "When the product dont exist"
+          }
+        }
+      }
+    },
+    "definitions": {
+      "Product": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Kiwi"
+          },
+          "quantity": {
+            "type": "number",
+            "example": 10
+          },
+          "price": {
+            "type": "number",
+            "example": 998
+          }
+        }
+      },
+      "Products": {
+        "type": "array",
+        "items": {
+          "schema": {
+            "$ref": "#/definitions/Product"
+          }
+        }
+      },
+      "Order": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "600b28c3bfc13a001f14ffdd"
+          },
+          "products": {
+            "schema": {
+              "$ref": "#/definitions/Products"
+            }
+          },
+          "total": {
+            "type": "number",
+            "example": 10000
+          }
+        }
+      }
+    }
+  }
+}
